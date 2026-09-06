@@ -14,7 +14,7 @@ provider "proxmox" {
   insecure = true
 
 }
-
+  
 # --------------------------------------------------
 # Download Ubuntu LXC Template
 # --------------------------------------------------
@@ -54,7 +54,9 @@ resource "proxmox_virtual_environment_container" "lxc_test" {
     nesting = true
   }
 
-  cores = 1
+  cpu {
+    cores = 1
+  }
 
   memory {
     dedicated = 512
