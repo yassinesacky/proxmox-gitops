@@ -19,7 +19,7 @@ provider "proxmox" {
 # Download Ubuntu LXC Template
 # --------------------------------------------------
 
-resource "proxmox_virtual_environment_download_file" "ubuntu_template" {
+resource "proxmox_download_file" "ubuntu_template" {
 
   content_type = "vztmpl"
 
@@ -113,7 +113,7 @@ resource "proxmox_virtual_environment_container" "lxc_test" {
 
   operating_system {
 
-    template_file_id = proxmox_virtual_environment_download_file.ubuntu_template.id
+    template_file_id = proxmox_download_file.ubuntu_template.id
 
     type = "ubuntu"
   }
