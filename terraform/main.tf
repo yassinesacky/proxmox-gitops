@@ -1,35 +1,23 @@
 terraform {
-    required_providers {
-        proxmox = {
-            source  = "bpg/proxmox"
-            version = "~> 0.111"
-        }
+  required_providers {
+    proxmox = {
+      source  = "bpg/proxmox"
+      version = "~> 0.111"
     }
+  }
 }
 # proxmox provider configs 
 
 provider "proxmox" {
-  endpoint = "https://100.119.241.73:8006/"
+  endpoint  = "https://100.119.241.73:8006/"
   api_token = "root@pam!gitops=efc2ea39-3449-4ce6-bd47-91b549c3b14d"
-  insecure = true
+  insecure  = true
 
 }
-  
+
 # --------------------------------------------------
 # Download Ubuntu LXC Template
 # --------------------------------------------------
-
-resource "proxmox_download_file" "ubuntu_template" {
-
-  content_type = "vztmpl"
-
-  datastore_id = "local"
-
-  node_name = "pve"
-
-  url = "https://download.proxmox.com/images/system/ubuntu-24.04-standard_24.04-2_amd64.tar.zst"
-}
-
 
 # --------------------------------------------------
 # Create LXC Container
@@ -113,7 +101,7 @@ resource "proxmox_virtual_environment_container" "lxc_test" {
 
   operating_system {
 
-    template_file_id = proxmox_download_file.ubuntu_template.id
+    template_file_id = "local:vztmpl/ubuntu-24.04-standard_24.04-2_amd64.tar.zst"
 
     type = "ubuntu"
   }
