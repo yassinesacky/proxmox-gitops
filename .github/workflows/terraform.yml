@@ -16,3 +16,8 @@ jobs:
         uses: hashicorp/setup-terraform@v4
       - name: Check terraform format
         run: terraform version
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        run: terraform validate
