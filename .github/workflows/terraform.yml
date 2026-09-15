@@ -9,22 +9,26 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v4
-      - name: Check terraform format
+
+      - name: Check Terraform Version
         run: terraform version
+
       - name: Connect to Tailscale
-        uses: tailscale/tailscale-action@v1
+        uses: tailscale/github-action@v4
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
+
       - name: Check Tailscale
-        run: |
-          tailscale status
+        run: tailscale status
 
       - name: Terraform Format Check
         run: terraform fmt -check
@@ -37,3 +41,4 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
+        
