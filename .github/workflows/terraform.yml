@@ -10,6 +10,11 @@ jobs:
   terraform:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: terraform
+
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -41,4 +46,3 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan
-        
