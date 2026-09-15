@@ -16,8 +16,24 @@ jobs:
         uses: hashicorp/setup-terraform@v4
       - name: Check terraform format
         run: terraform version
+      - name: Connect to Tailscale
+        uses: tailscale/tailscale-action@v1
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+      - name: Check Tailscale
+        run: |
+          tailscale status
+
       - name: Terraform Format Check
         run: terraform fmt -check
 
+      - name: Terraform Init
+        run: terraform init
+
       - name: Terraform Validate
         run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
