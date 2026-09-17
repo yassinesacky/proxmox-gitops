@@ -43,11 +43,11 @@ resource "proxmox_virtual_environment_container" "lxc_test" {
   }
 
   cpu {
-    cores = 1
+    cores = 2
   }
 
   memory {
-    dedicated = 512
+    dedicated = 1024
   }
 
 
@@ -91,7 +91,7 @@ resource "proxmox_virtual_environment_container" "lxc_test" {
 
     datastore_id = "local-lvm"
 
-    size = 4
+    size = 10
   }
 
 
