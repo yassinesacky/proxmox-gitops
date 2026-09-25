@@ -80,12 +80,7 @@ jobs:
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
 
-      - name: Configure SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" > ~/.ssh/ansible_proxmox
-          chmod 600 ~/.ssh/ansible_proxmox
-      
+
       - name: Configure SSH known hosts
         env:
           ANSIBLE_KNOWN_HOSTS: ${{ secrets.ANSIBLE_KNOWN_HOSTS }}
@@ -94,7 +89,12 @@ jobs:
           chmod 700 ~/.ssh
           printf '%s\n' "$ANSIBLE_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts    
-
+      - name: Configure SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" > ~/.ssh/ansible_proxmox
+          chmod 600 ~/.ssh/ansible_proxmox
+    
       - name: Test Ansible connectivity
         run: ansible all -i inventory.ini -m ping
 
