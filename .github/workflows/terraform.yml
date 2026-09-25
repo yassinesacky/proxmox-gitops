@@ -85,6 +85,15 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.ANSIBLE_SSH_PRIVATE_KEY }}" > ~/.ssh/ansible_proxmox
           chmod 600 ~/.ssh/ansible_proxmox
+      
+      - name: Configure SSH known hosts
+        env:
+          ANSIBLE_KNOWN_HOSTS: ${{ secrets.ANSIBLE_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$ANSIBLE_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts    
 
       - name: Test Ansible connectivity
         run: ansible all -i inventory.ini -m ping
