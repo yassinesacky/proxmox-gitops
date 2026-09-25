@@ -96,7 +96,14 @@ jobs:
           chmod 600 ~/.ssh/ansible_proxmox
     
       - name: Test Ansible connectivity
-        run: ansible all -i inventory.ini -m ping
+        run: |
+          if ssh-keygen -F 192.168.1.158 -f ~/.ssh/known_hosts > /dev/null; then
+            echo "Host entry FOUND"
+          else
+            echo "Host entry MISSING or incorrectly formatted"
+            exit 1
+          fi
+          ansible all -i inventory.ini -m ping
 
       - name: Run Ansible playbook
         run: ansible-playbook -i inventory.ini playbook.yml
